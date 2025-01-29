@@ -8,12 +8,11 @@ Here are some preliminary methods that I would like to develop. I am not going t
 
 **Potential Features**
 
-    - Provide analysis on the number of patents filed within a designated date period
-    - Allow the user to search patents by keywords or strings or across a combination of fields (i.e. combinations of attributes such as inventor, filing date, keyword, geography, etc.)
-    - Allow the user to search the patent by different market sectors (i.e. healthcare, tech, etc.)
-    - Allow the user to check on the status of a patent by providing the patent API
-    - Allow the user to specify and find patents filed by a publicly traded company using the company’s stock ticker (this is a tentative method because I am not sure how well the companies names/stock ticker translate to the legal entity filing the patent)
-    - Similar to above, I would like to see if I can collate all the information returned from the query and send it to an LLM to summarize and identify key points from.
+    * Provide analysis on the number of patents filed within a designated date period
+    * Allow the user to search patents by keywords or strings or across a combination of fields (i.e. combinations of attributes such as inventor, filing date, keyword, geography, etc.)
+    * Allow the user to search the patent by different market sectors (i.e. healthcare, tech, etc.)
+    * Allow the user to check on the status of a patent by providing the patent API
+    * I would like to see if I can collate all the information returned from the query and send it to an LLM to summarize and identify key points from.
 
 
 ### Patent Analyzer Project Plan
@@ -23,7 +22,7 @@ Here are some preliminary methods that I would like to develop. I am not going t
     - [ ] By end of week 6, finalize the list of interesting analytics/KPIs that would be interesting to inventors and begin developing methods to analyze patent data (i.e. # of patents filed within a given period, # of patents in particular sectors, identify soon-to-expire patents that may be available for licensing, etc.).
     - [ ] By end of week 7, develop the UI/UX and functions which will allow users to query the US Patent Database by different patent attributes such as: filing entity, company, keywords, dates, status, sector, etc.
     - [ ] By end of week 8, develop a prompt and method which takes the patent that are returned and summarizes them using an LLM such as LLAMA, ChatGPT, etc. Validate the responses and try to add functionality to where users can select from a set of preconceived prompts (I.e. summarize the patents, identify competing technology for each returned patent, etc.)
-    - By week 9, finalize the application, perform testing and add nice to have features such as graphics and charts which will allow users to identify trends. 2 examples of charts may be: a time series graph of patent filings within a specified date range. Heatmaps of patent filings by geography (i.e. states, cities, etc.)
+    - [ ] By week 9, finalize the application, perform testing and add nice to have features such as graphics and charts which will allow users to identify trends. 2 examples of charts may be: a time series graph of patent filings within a specified date range. Heatmaps of patent filings by geography (i.e. states, cities, etc.)
     
 
 
