@@ -1,4 +1,3 @@
-# https://github.com/imwilsonxu/fbone
 import requests
 import json
 import time
