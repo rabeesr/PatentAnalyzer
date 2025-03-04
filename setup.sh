@@ -13,24 +13,17 @@ then
 fi
 
 # Upgrade pip
-echo "🔄 Upgrading pip..."
+echo "Upgrading pip..."
 pip3 install --upgrade pip
 
 # Install dependencies from requirements.txt
-echo "📦 Installing dependencies..."
+echo "Installing dependencies..."
 pip3 install -r requirements.txt
 
-# Create a virtual environment
-if [ ! -d "venv" ]; then
-    echo "Creating a virtual environment..."
-    python3 -m venv venv
-fi
-
-# Activate the virtual environment
-echo "Activating virtual environment..."
+# Run FastAPI in the background using & and run it on port 8000. Start streamlit app
+echo "Running FastAPI server..."
 source venv/bin/activate
+uvicorn main:app --host 0.0.0.0 --port 8000 & 
+streamlit run app.py 
 
 
-# Run the FastAPI server
-echo "🚀 Running FastAPI server..."
-uvicorn backend.main:app --reload
