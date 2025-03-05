@@ -50,7 +50,7 @@ if response.status_code == 200:
     data = pd.DataFrame(response.json()).transpose()
     event = st.dataframe(
     data,
-    column_order = ['filingDate', 'grantDate', 'inventionTitle', 
+    column_order = ['patentNumber','filingDate', 'grantDate', 'inventionTitle', 
                     'firstInventorName', 'firstApplicantName', 'applicationStatusDate', 'cityName', 'geographicRegionName', 'applicationNumberText'],
 
     column_config = {'filingDate': "Filing Date", 'grantDate': "Grant Date", 'inventionTitle': "Invention Title",

@@ -128,61 +128,10 @@ def get_patent_docs(base_url, application_number, retry=0):
         print('Sorry maximum retries exceeded, server not available. Please try again later')
     return response
 
-# response = make_search_request(PATENT_SEARCH_URL, 
-#                                json_payload= {
-#   "q": "applicationMetaData.firstApplicantName:\"Apple\"",
-#   "filters": [
-#     {
-#       "name": "applicationMetaData.applicationStatusDescriptionText",
-#       "value": [
-#         "Patented Case"
-#       ]
-#     }
-#   ],
-#   "rangeFilters": [
-#     {
-#       "field": "applicationMetaData.filingDate",
-#       "valueFrom": "2024-03-05",
-#       "valueTo": "2025-03-05"
-#     }
-#   ],
-#   "pagination": {
-#     "offset": 0,
-#     "limit": 100
-#   },
-#   "sort": [
-#     {
-#       "field": "applicationMetaData.filingDate",
-#       "order": "desc"
-#     }
-#   ],
-#   "fields": [
-#     "applicationNumberText",
-#     "applicationMetaData.inventionTitle",
-#     "applicationMetaData.patentNumber",
-#     "applicationMetaData.smallEntityStatusIndicator",
-#     "applicationMetaData.nationalStageIndicator",
-#     "applicationMetaData.firstApplicantName",
-#     "applicationMetaData.firstInventorName",
-#     "applicationMetaData.applicationStatusDescriptionText",
-#     "applicationMetaData.applicationStatusCode",
-#     "applicationMetaData.applicationStatusDate",
-#     "applicationMetaData.filingDate",
-#     "applicationMetaData.applicationTypeCode",
-#     "applicationMetaData.applicationTypeLabelName",
-#     "applicationMetaData.applicationTypeCategory",
-#     "applicationMetaData.filingDate",
-#     "applicationMetaData.grantDate",
-#     "correspondenceAddressBag.geographicRegionName",
-#     "correspondenceAddressBag.cityName",
-#     "correspondenceAddressBag.countryName"
-#   ]
-# })
 
-# print(response.json())
-# response2 = get_patent_docs(PATENT_DOC_URL, "29930834")
+response2 = get_patent_docs(PATENT_DOC_URL, "29944419")
 # # # # response3 = requests.get("https://api.uspto.gov/api/v1/download/applications/18540269/LQ5PPXONGREENX2.pdf", headers=headers)
-# print(response2.json())
+print(response2.json())
 
 # if response3.status_code == 200:
 #     with open("./contents/File.pdf", 'wb') as file:

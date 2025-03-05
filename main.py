@@ -79,15 +79,19 @@ def store_patents(search_all: str = "", filing_start_date: str = "", filing_end_
             resp = make_search_request(PATENT_SEARCH_URL, json_payload=json_payload2)
             api_call_number += 1
             search_results[f"attempt{api_call_number}"] = resp.json()
-        return search_results
     for x in search_results:
-        df = pd.DataFrame()
         if x == "count":
             pass
         else:
             for y in search_results[x]:
-                application_number = y['applicationNumberText']
-                df[application_number] =  y['applicationMetaData'] | y['correspondenceAddressBag'][0] | {"applicationNumberText":y['applicationNumberText']}
+                try:
+                    application_number = y['applicationNumberText']
+                except:
+                    continue
+                else:
+                    application_number = y['applicationNumberText']
+                    concat_dict =  y['applicationMetaData'] | y['correspondenceAddressBag'][0] | {"applicationNumberText":y['applicationNumberText']}
+                    app.db.put(application_number, concat_dict)
     return app.db.all()
 
 # Return all stored patent data
@@ -96,11 +100,11 @@ def return_all_patents():
     return app.db.all()
     
 
-# # Generate heatmap data
-# @app.get("/summarize_patent")
-# def summarize_patent(application_number):
-#         response = get_patent_docs(PATENT_DOC_URL, application_number=application_number)
-#         return response
+# summarize patent data
+@app.get("/summarize_patent")
+def summarize_patent(application_number):
+        response = get_patent_docs(PATENT_DOC_URL, application_number=application_number)
+        return response.json()
 
 # # Generate line chart data
 # @app.get("/line_chart")

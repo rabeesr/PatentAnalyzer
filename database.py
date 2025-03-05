@@ -20,6 +20,6 @@ class DataBase():
         self._data.pop(key)
         return self._data
 
-    # def clear_all(self):
-    #     self._data = pd.DataFrame()
-    #     return self._data
+    def clear_all(self):
+        self._data = pd.DataFrame()
+        return self._data
