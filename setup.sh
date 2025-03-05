@@ -23,7 +23,8 @@ pip3 install -r requirements.txt
 # Run FastAPI in the background using & and run it on port 8000. Start streamlit app
 echo "Running FastAPI server..."
 source venv/bin/activate
-uvicorn main:app --host 0.0.0.0 --port 8000 & 
+uvicorn main:app --host 0.0.0.0 --port 8000 &
+
 streamlit run app.py 
 
 
