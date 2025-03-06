@@ -129,9 +129,7 @@ def get_patent_docs(base_url, application_number, retry=0):
     return response
 
 
-response2 = get_patent_docs(PATENT_DOC_URL, "29944419")
-# # # # response3 = requests.get("https://api.uspto.gov/api/v1/download/applications/18540269/LQ5PPXONGREENX2.pdf", headers=headers)
-print(response2.json())
+#response3 = requests.get("https://api.uspto.gov/api/v1/download/applications/18540269/LQ5PPXONGREENX2.pdf", headers=headers)
 
 # if response3.status_code == 200:
 #     with open("./contents/File.pdf", 'wb') as file:

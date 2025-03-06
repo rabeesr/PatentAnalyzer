@@ -71,17 +71,17 @@ else:
     st.subheader("You have selected the following patent record")
     selected_data = data.iloc[int(event.selection.rows[0])]
     st.table(selected_data)
-
+    st.subheader("Pressing Confirm will download the Patent Spec PDF and summarize it using an LLMs")
     if st.button("Confirm Selection and Summarize Patent Spec"):
         st.subheader(selected_data.applicationNumberText)
         params = {
             "application_number" : selected_data.applicationNumberText
         }
         response = requests.get(f"{BASE_URL}/summarize_patent", params=params)
-        st.subheader(response.json())
-    else:
-        st.subheader("Test2")
-
+        if response.status_code == 200:
+            st.subheader('Download Successful. Please wait while the document is being summarized...')
+        else:
+            st.subheader('Failed to download file. Download API limit may have been exceeded. Please try again later.')
 
 # --- 2. Display Stored Patent Data ---
 

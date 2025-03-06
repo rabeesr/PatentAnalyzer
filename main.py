@@ -22,9 +22,6 @@ def store_patents(search_all: str = "", filing_start_date: str = "", filing_end_
     #construct the query term necessary to pass into the JSON based on whether fields are filled out or now
     q= ''
 
-    filing_start_date = (datetime.today() - relativedelta(years = 50)).strftime("%Y-%m-%d")
-    filing_end_date = (datetime.today()).strftime("%Y-%m-%d")
-
     if search_all:
         if not q == '':
             q = q + ' AND "' + search_all + '"'
@@ -103,8 +100,27 @@ def return_all_patents():
 # summarize patent data
 @app.get("/summarize_patent")
 def summarize_patent(application_number):
-        response = get_patent_docs(PATENT_DOC_URL, application_number=application_number)
-        return response.json()
+    response = get_patent_docs(PATENT_DOC_URL, application_number=application_number)
+    #helper function to get the download URL of the selected patent
+    
+    def find_pdf_spec_url(data):
+        for document in data.get('documentBag', []):
+            if document.get('documentCode') == 'SPEC':
+                for download in document.get('downloadOptionBag', []):
+                    if download.get('mimeTypeIdentifier') == 'PDF':
+                        return download.get('downloadUrl')
+        return None
+    #test with 18537570
+    # Find and print the PDF URL
+    pdf_url = find_pdf_spec_url(response.json())
+    if pdf_url:
+        response2 = requests.get(pdf_url, headers=headers)
+        if response2.status_code == 200:
+            with open("./contents/PatentSpec.pdf", 'wb') as file:
+                file.write(response2.content)
+            return 'File downloaded successfully'
+        else:
+            return 'Failed to download file'
 
 # # Generate line chart data
 # @app.get("/line_chart")

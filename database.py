@@ -11,15 +11,15 @@ class DataBase():
 
     def put(self, key, value):
         self._data[key] = value
-        return self._data[key]
+        return self._data[key].fillna("")
 
     def all(self):
-        return self._data
+        return self._data.fillna("")
     
     def delete(self, key):
         self._data.pop(key)
-        return self._data
+        return self._data.fillna("")
 
     def clear_all(self):
         self._data = pd.DataFrame()
-        return self._data
+        return self._data.fillna("")
