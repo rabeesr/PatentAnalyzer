@@ -133,3 +133,7 @@ def summarize_patent(application_number):
 # @app.post("/save_report")
 # def save_report():
 #     return {"message": "Report saved successfully"}
+
+@app.delete("/clear_db")
+def clear_db_table():
+    return app.db.clear_all()

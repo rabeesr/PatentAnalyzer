@@ -25,7 +25,8 @@ applicant_name = st.text_input("Applicant Name")
 city = st.text_input("City")
 state = st.text_input("State")
 
-if st.button("Run Query"):
+a = st.button("Run Query")
+if a:
     params = {
         "search_all": search_all,
         "filing_start_date": start_date.strftime("%Y-%m-%d") if start_date else "",
@@ -42,6 +43,10 @@ if st.button("Run Query"):
         st.success(f"Patents fetched and stored successfully!")
     else:
         st.error("Failed to fetch patents.")
+
+if st.button("Clear Database"):
+    response = requests.delete(f"{BASE_URL}/clear_db")
+
 
 # --- 2. Display Stored Patent Data ---
 st.subheader("Stored Patent Data")

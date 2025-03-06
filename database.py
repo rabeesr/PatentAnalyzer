@@ -22,4 +22,4 @@ class DataBase():
 
     def clear_all(self):
         self._data = pd.DataFrame()
-        return self._data.fillna("")
+        return self._data
