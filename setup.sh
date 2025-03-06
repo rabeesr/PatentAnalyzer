@@ -5,6 +5,11 @@ set -e
 
 echo "Setting up the Patent application..."
 
+#create contents directory if it does not already exist
+if [ ! -d "./contents" ]; then
+  mkdir ./contents
+fi
+
 # Check if Python is installed
 if ! command -v python3 &> /dev/null
 then
