@@ -17,6 +17,16 @@ then
     exit 1
 fi
 
+# Create a virtual environment if it does not exist
+if [ ! -d "venv" ]; then
+    echo "🔧 Creating a virtual environment..."
+    python3 -m venv venv
+fi
+
+# Activate the virtual environment
+echo "✅ Activating virtual environment..."
+source venv/bin/activate
+
 # Upgrade pip
 echo "Upgrading pip..."
 pip3 install --upgrade pip
