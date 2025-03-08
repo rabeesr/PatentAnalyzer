@@ -64,12 +64,14 @@ def create_json_payload(q: str = None, filing_start_date: Optional[str] = None, 
 
     if q:
         query["q"] = q
-    
+    # can use this to filter for cases that are either granted or under examination (it is currently filtering out patents that are rejected)
     query["filters"] = [
     {
       "name": "applicationMetaData.applicationStatusDescriptionText",
       "value": [
-        "Patented Case"
+        "Patented Case",
+        "Docketed New Case - Ready for Examination",
+        "Non Final Action Mailed"
       ]
     }
     ]

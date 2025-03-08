@@ -64,27 +64,30 @@ def store_patents(search_all: str = "", filing_start_date: str = "", filing_end_
     search_results[f"attempt{api_call_number}"] = resp.json()["patentFileWrapperDataBag"]
     if resp.json()["count"] > 100:
         # setting to a conservative limit of 3 to reduce likelihood of hitting daily limit for testing purposes. Can make this bigger in a production environmment
-        api_call_limit = 1
+        api_call_limit = 5
         offset = 0
         while search_results["count"] - (offset + 100) >= 0 and api_call_number < api_call_limit:
             offset = offset + 100
             json_payload2 = create_json_payload(q=q, filing_start_date=filing_start_date, filing_end_date= filing_end_date, offset = offset)
-            resp = make_search_request(PATENT_SEARCH_URL, json_payload=json_payload2)
+            resp2 = make_search_request(PATENT_SEARCH_URL, json_payload=json_payload2)
             api_call_number += 1
-            search_results[f"attempt{api_call_number}"] = resp.json()
+            search_results[f"attempt{api_call_number}"] = resp2.json()["patentFileWrapperDataBag"]
     for x in search_results:
         if x == "count":
-            pass
+            continue
         else:
             for y in search_results[x]:
-                try:
-                    application_number = y['applicationNumberText']
-                except:
+                if y == "count":
                     continue
                 else:
-                    application_number = y['applicationNumberText']
-                    concat_dict =  y['applicationMetaData'] | y['correspondenceAddressBag'][0] | {"applicationNumberText":y['applicationNumberText']}
-                    app.db.put(application_number, concat_dict)
+                    try:
+                        application_number = y['applicationNumberText']
+                    except:
+                        continue
+                    else:
+                        application_number = y['applicationNumberText']
+                        concat_dict =  y['applicationMetaData'] | y['correspondenceAddressBag'][0] | {"applicationNumberText":y['applicationNumberText']}
+                        app.db.put(application_number, concat_dict)
     return app.db.all()
 
 # Return all stored patent data
