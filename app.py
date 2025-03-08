@@ -50,12 +50,19 @@ if b:
     response = requests.delete(f"{BASE_URL}/clear_db")
 
 # --- 4. Line Chart ---
-# st.subheader("Patent Trends Over Time")
-# response = requests.get(f"{BASE_URL}/line_chart")
-# chart_data = response.json()
-# st.text(chart_data)
-# fig = px.line(x=chart_data["x"], y=chart_data["y"], labels={"x": "Time", "y": "Patent Application Count"}, title="Patent Filing Trends")
-# st.plotly_chart(fig)
+st.subheader("Patent Trends Over Time")
+response = requests.get(f"{BASE_URL}/line_chart")
+chart_data = response.json()
+st.text(f"{chart_data}")
+# Convert keys (dates) to datetime format and sort
+sorted_data = sorted(chart_data.items(), key=lambda x: datetime.strptime(x[0], "%m/%Y"))  # Adjust format as needed
+# Extract sorted x and y values
+sorted_x = [item[0] for item in sorted_data]  # Sorted dates (x-axis)
+sorted_y = [item[1] for item in sorted_data]  # Corresponding counts (y-axis)
+# Create the line chart
+fig = px.line(x=sorted_x, y=sorted_y, labels={"x": "Date", "y": "Patent Application Count"}, 
+              markers=True, title="Patent Filing Trends")
+st.plotly_chart(fig)
 # else:
 #     st.error(f"There was an error generating the line chart with response code {response.status_code}. This may be due to anamolous data returned from the Patent API")
 

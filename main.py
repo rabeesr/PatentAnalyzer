@@ -3,7 +3,7 @@ from external_api_routes.patent_routes import *
 from external_api_routes.gemeni_routes import *
 import pandas as pd
 import numpy as np
-
+from datetime import datetime
 from database import *
 
 # Initialize FastAPI
@@ -118,25 +118,20 @@ def download_patent(application_number):
         else:
             return 'Failed to download file'
         
-# def process_patent_data(data_array: np.ndarray):
-#     # Extract filing years from each dictionary in the NumPy array
-#     filing_years = np.array([entry["filingDate"][:4] for entry in data_array])
+def process_patent_dates(data):
+    patents_by_date = {}
+    for x in data:
+        year = datetime.strptime(data[x]['filingDate'],'%Y-%m-%d').strftime('%m/%Y')
+        if year in patents_by_date:
+            patents_by_date[year] += 1
+        else:
+            patents_by_date[year] = 1
+    return patents_by_date
 
-#     # Count applications per year using pandas for sorting and structuring
-#     patent_counts = pd.Series(filing_years).value_counts().sort_index()
-
-#     # Convert to structured data format for Streamlit
-#     formatted_data = {
-#         "x": patent_counts.index.tolist(),  # Sorted years
-#         "y": patent_counts.values.tolist()  # Corresponding counts
-#     }
-#     return formatted_data
-
-# # Generate line chart data
-# @app.get("/line_chart")
-# def generate_line_chart():
-#     results = process_patent_data(app.db.all())
-#     return results
+# Generate line chart data
+@app.get("/line_chart")
+def generate_line_chart():
+    return process_patent_dates(app.db.all())
 
 
 @app.delete("/clear_db")
