@@ -1,13 +1,9 @@
 from fastapi import FastAPI, Depends, HTTPException
-from sqlalchemy import create_engine, Column, Integer, String, Date, MetaData
-from sqlalchemy.orm import sessionmaker, declarative_base, Session
 from external_api_routes.patent_routes import *
 from external_api_routes.gemeni_routes import *
-import sqlite3
 import pandas as pd
 import numpy as np
-from datetime import datetime
-from dateutil.relativedelta import relativedelta
+
 from database import *
 
 # Initialize FastAPI
@@ -97,9 +93,9 @@ def return_all_patents():
     return app.db.all()
     
 
-# summarize patent data
-@app.get("/summarize_patent")
-def summarize_patent(application_number):
+# download patent spec document
+@app.get("/download_patent")
+def download_patent(application_number):
     response = get_patent_docs(PATENT_DOC_URL, application_number=application_number)
     #helper function to get the download URL of the selected patent
     
@@ -121,18 +117,27 @@ def summarize_patent(application_number):
             return 'File downloaded successfully'
         else:
             return 'Failed to download file'
+        
+# def process_patent_data(data_array: np.ndarray):
+#     # Extract filing years from each dictionary in the NumPy array
+#     filing_years = np.array([entry["filingDate"][:4] for entry in data_array])
+
+#     # Count applications per year using pandas for sorting and structuring
+#     patent_counts = pd.Series(filing_years).value_counts().sort_index()
+
+#     # Convert to structured data format for Streamlit
+#     formatted_data = {
+#         "x": patent_counts.index.tolist(),  # Sorted years
+#         "y": patent_counts.values.tolist()  # Corresponding counts
+#     }
+#     return formatted_data
 
 # # Generate line chart data
 # @app.get("/line_chart")
 # def generate_line_chart():
-#     x = list(range(10))
-#     y = [val**2 for val in x]  # Example quadratic function
-#     return {"x": x, "y": y}
+#     results = process_patent_data(app.db.all())
+#     return results
 
-# # Save a report (mock function)
-# @app.post("/save_report")
-# def save_report():
-#     return {"message": "Report saved successfully"}
 
 @app.delete("/clear_db")
 def clear_db_table():

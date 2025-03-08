@@ -7,6 +7,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
+from external_api_routes.gemeni_routes import *
 
 BASE_URL = "http://localhost:8000"
 
@@ -44,9 +45,19 @@ if a:
     else:
         st.error("Failed to fetch patents.")
 
-if st.button("Clear Database"):
+b = st.button("Clear Database")
+if b:
     response = requests.delete(f"{BASE_URL}/clear_db")
 
+# --- 4. Line Chart ---
+# st.subheader("Patent Trends Over Time")
+# response = requests.get(f"{BASE_URL}/line_chart")
+# chart_data = response.json()
+# st.text(chart_data)
+# fig = px.line(x=chart_data["x"], y=chart_data["y"], labels={"x": "Time", "y": "Patent Application Count"}, title="Patent Filing Trends")
+# st.plotly_chart(fig)
+# else:
+#     st.error(f"There was an error generating the line chart with response code {response.status_code}. This may be due to anamolous data returned from the Patent API")
 
 # --- 2. Display Stored Patent Data ---
 st.subheader("Stored Patent Data")
@@ -59,15 +70,15 @@ if response.status_code == 200:
                     'firstInventorName', 'firstApplicantName', 'applicationStatusDate', 'cityName', 'geographicRegionName', 'applicationNumberText'],
 
     column_config = {'filingDate': "Filing Date", 'grantDate': "Grant Date", 'inventionTitle': "Invention Title",
-                     'firstInventorName': "Inventor Name", 'firstApplicantName': "Applicant Name",
-                     'applicationStatusDate' : "Application Status Date", "cityName": "City", 'geographicRegionName': "State",
-                     'applicationNumberText': "Application Number"
-                     },
+                    'firstInventorName': "Inventor Name", 'firstApplicantName': "Applicant Name",
+                    'applicationStatusDate' : "Application Status Date", "cityName": "City", 'geographicRegionName': "State",
+                    'applicationNumberText': "Application Number"
+                    },
     selection_mode = ["single-row"],
     on_select = "rerun",
     hide_index=False
 )
-    
+        
 try:
     event.selection.rows[0]
 except:
@@ -78,17 +89,22 @@ else:
     st.table(selected_data)
     st.subheader("Pressing Confirm will download the Patent Spec PDF and summarize it using an LLMs")
     if st.button("Confirm Selection and Summarize Patent Spec"):
-        st.subheader(selected_data.applicationNumberText)
+        st.info(f"Please wait while the patent file for apllication number: {selected_data.applicationNumberText} is downloaded. This may take up to a few minutes for large files.")
         params = {
             "application_number" : selected_data.applicationNumberText
         }
-        response = requests.get(f"{BASE_URL}/summarize_patent", params=params)
+        response = requests.get(f"{BASE_URL}/download_patent", params=params)
         if response.status_code == 200:
-            st.subheader('Download Successful. Please wait while the document is being summarized...')
+            st.info('Download Successful. Please wait while the document is being summarized...')
+            try:
+                summary = gemini_wrapper()
+            except:
+                st.error("Sorry there was an error in summarizing the patent. Google Gemini API limit may have been reached.")
+            else:
+                st.markdown(summary.text)
         else:
-            st.subheader('Failed to download file. Download API limit may have been exceeded. Please try again later.')
+            st.error('Failed to download file. Download API limit may have been exceeded. Please try again later.')
 
-# --- 2. Display Stored Patent Data ---
 
 # # --- 3. Heatmap Visualization ---
 # st.subheader("Patent Data Heatmap")
@@ -99,13 +115,6 @@ else:
 #     sns.heatmap(heatmap_data, cmap="coolwarm", annot=True, ax=ax)
 #     st.pyplot(fig)
 
-# # --- 4. Line Chart ---
-# st.subheader("Patent Trends Over Time")
-# response = requests.get(f"{BASE_URL}/line_chart")
-# if response.status_code == 200:
-#     chart_data = response.json()
-#     fig = px.line(x=chart_data["x"], y=chart_data["y"], labels={"x": "Time", "y": "Patent Count"}, title="Patent Filing Trends")
-#     st.plotly_chart(fig)
 
 # # --- 5. Save Report ---
 # if st.button("Save Report"):

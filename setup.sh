@@ -19,12 +19,12 @@ fi
 
 # Create a virtual environment if it does not exist
 if [ ! -d "venv" ]; then
-    echo "🔧 Creating a virtual environment..."
+    echo "Creating a virtual environment..."
     python3 -m venv venv
 fi
 
 # Activate the virtual environment
-echo "✅ Activating virtual environment..."
+echo "Activating virtual environment..."
 source venv/bin/activate
 
 # Upgrade pip
