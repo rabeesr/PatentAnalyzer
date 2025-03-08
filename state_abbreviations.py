@@ -1,3 +1,5 @@
+
+# this is used to take a full state name and provide the abbreviated 2 character state code required for the plotly heatmap
 st_abr_dic = {'alaska': 'AK', 
               'alabama': 'AL', 
               'arkansas': 'AR', 
