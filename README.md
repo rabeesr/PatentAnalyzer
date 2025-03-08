@@ -1,8 +1,19 @@
 # PatentAnalyzer
 Final Project for MPCS Python Programming
 
+
+# Note to Graders
+
+To run the application simply type ./setup.sh in the terminal after changing the working directory to whereever the app repo was downloaded. 
+
+The patent app requires ports 8000 and ports 8501 to be clear of any processes. If there are existing processes then users will get an error. To correct the issue, run the command lsof -i :8000 (for port 8000) or lsof -i :8501 (for port 8501). Use the PID that is returned from that command and type in kill -9 {PID Number here}. This will kill the process.
+
+As another note, if this is your first time using streamlit, it will ask you to enter an email before the app is started. Simply press enter to skip this step.
+
+Finally, if there are any other issues please feel free to reach out to Rabees via slack. 
+
 **Project Description**
-I would like to develop an application which allows users to analyze information from the US Patent Office. The application will allow users to interact with it via the command line to support the following methods/actions. I will use the Patent search API developed in partnership with the US Patents Office found here: https://search.patentsview.org/docs/docs/Search%20API/SearchAPIReference/?_gl=1*ote6kb*_ga*NTY4NjY0OTQyLjE3Mzc1NjY1MTM.*_ga_K4PTTLH074*MTczNzU2NjUxMy4xLjEuMTczNzU2NjUyNy40Ni4wLjA.
+I would like to develop an application which allows users to analyze information from the US Patent Office. The application will allow users to interact with it via the command line to support the following methods/actions. I will use the Patent search API developed in partnership with the US Patents Office found here: https://data.uspto.gov/apis/patent-file-wrapper/search.
 
 Here are some preliminary methods that I would like to develop. I am not going to limit myself to these methods and will continuosuly refine the features based upon feasibility and end user value.
 
