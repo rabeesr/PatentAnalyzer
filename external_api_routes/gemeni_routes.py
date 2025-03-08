@@ -9,6 +9,7 @@ import httpx
 
 
 def gemini_wrapper():
+    """Wrapper function to make a call to the Google Gemini API. The function uploads the PDF file, supplies it to the Google Gemini 2.0 Flash Lite model."""
     client = genai.Client(api_key="AIzaSyBfOLl57ibOiXm6Zvb39OXZuGR1hJY5tmo")
 
     # Get the current path
@@ -20,6 +21,7 @@ def gemini_wrapper():
     sample_file = client.files.upload(
     file=file_path,
     )
+    # prompt to summarize the patent spec, identify risks and limitations, potential customers, and competitors.
     prompt = "You are an expert in patent analysis and technology evaluation. Given the full text of a patent document, analyze it and provide the following structured insights: \
     Summary (5 sentences maximum): Provide a concise summary of the patent, focusing on its key objectives, core technological innovation, and intended use cases. \
     Limitations: Identify any technical, operational, or scalability limitations of the described technology. Consider constraints related to feasibility, cost, performance, regulatory challenges, or adoption barriers. \

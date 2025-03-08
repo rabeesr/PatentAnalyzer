@@ -128,22 +128,3 @@ else:
                 st.markdown(summary.text)
         else:
             st.error('Failed to download file. Download API limit may have been exceeded. Please try again later.')
-
-
-# # --- 3. Heatmap Visualization ---
-# st.subheader("Patent Data Heatmap")
-# response = requests.get(f"{BASE_URL}/heatmap")
-# if response.status_code == 200:
-#     heatmap_data = np.array(response.json())
-#     fig, ax = plt.subplots()
-#     sns.heatmap(heatmap_data, cmap="coolwarm", annot=True, ax=ax)
-#     st.pyplot(fig)
-
-
-# # --- 5. Save Report ---
-# if st.button("Save Report"):
-#     response = requests.post(f"{BASE_URL}/save_report")
-#     if response.status_code == 200:
-#         st.success("Report saved successfully!")
-#     else:
-#         st.error("Failed to save report.")

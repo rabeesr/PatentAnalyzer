@@ -17,12 +17,12 @@ Here are some preliminary methods that I would like to develop. I am not going t
 
 ### Patent Analyzer Project Plan
 
-    - [ ] By end of week 4, confirm the availability of the API and perform a simple "Get" HTTPS request and ingest JSON message. If the aforementioned API is not supported then identify alternative sources of Patent Data.
-    - [ ] By end of week 5, design a simple webpage for users to interact with the data and host it on a local port.
-    - [ ] By end of week 6, finalize the list of interesting analytics/KPIs that would be interesting to inventors and begin developing methods to analyze patent data (i.e. # of patents filed within a given period, # of patents in particular sectors, identify soon-to-expire patents that may be available for licensing, etc.).
-    - [ ] By end of week 7, develop the UI/UX and functions which will allow users to query the US Patent Database by different patent attributes such as: filing entity, company, keywords, dates, status, sector, etc.
-    - [ ] By end of week 8, develop a prompt and method which takes the patent that are returned and summarizes them using an LLM such as LLAMA, ChatGPT, etc. Validate the responses and try to add functionality to where users can select from a set of preconceived prompts (I.e. summarize the patents, identify competing technology for each returned patent, etc.)
-    - [ ] By week 9, finalize the application, perform testing and add nice to have features such as graphics and charts which will allow users to identify trends. 2 examples of charts may be: a time series graph of patent filings within a specified date range. Heatmaps of patent filings by geography (i.e. states, cities, etc.)
+    - [X] By end of week 4, confirm the availability of the API and perform a simple "Get" HTTPS request and ingest JSON message. If the aforementioned API is not supported then identify alternative sources of Patent Data.
+    - [X] By end of week 5, design a simple webpage for users to interact with the data and host it on a local port.
+    - [X] By end of week 6, finalize the list of interesting analytics/KPIs that would be interesting to inventors and begin developing methods to analyze patent data (i.e. # of patents filed within a given period, # of patents in particular sectors, identify soon-to-expire patents that may be available for licensing, etc.).
+    - [X] By end of week 7, develop the UI/UX and functions which will allow users to query the US Patent Database by different patent attributes such as: filing entity, company, keywords, dates, status, sector, etc.
+    - [X] By end of week 8, develop a prompt and method which takes the patent that are returned and summarizes them using an LLM such as LLAMA, ChatGPT, etc. Validate the responses and try to add functionality to where users can select from a set of preconceived prompts (I.e. summarize the patents, identify competing technology for each returned patent, etc.)
+    - [X] By week 9, finalize the application, perform testing and add nice to have features such as graphics and charts which will allow users to identify trends. 2 examples of charts may be: a time series graph of patent filings within a specified date range. Heatmaps of patent filings by geography (i.e. states, cities, etc.)
     
 
 
