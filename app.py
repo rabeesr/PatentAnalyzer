@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from external_api_routes.gemeni_routes import *
+import plotly.graph_objects as go
 
 BASE_URL = "http://localhost:8000"
 
@@ -49,22 +50,38 @@ b = st.button("Clear Database")
 if b:
     response = requests.delete(f"{BASE_URL}/clear_db")
 
-# --- 4. Line Chart ---
-st.subheader("Patent Trends Over Time")
-response = requests.get(f"{BASE_URL}/line_chart")
-chart_data = response.json()
-st.text(f"{chart_data}")
-# Convert keys (dates) to datetime format and sort
-sorted_data = sorted(chart_data.items(), key=lambda x: datetime.strptime(x[0], "%m/%Y"))  # Adjust format as needed
-# Extract sorted x and y values
-sorted_x = [item[0] for item in sorted_data]  # Sorted dates (x-axis)
-sorted_y = [item[1] for item in sorted_data]  # Corresponding counts (y-axis)
-# Create the line chart
-fig = px.line(x=sorted_x, y=sorted_y, labels={"x": "Date", "y": "Patent Application Count"}, 
-              markers=True, title="Patent Filing Trends")
-st.plotly_chart(fig)
-# else:
-#     st.error(f"There was an error generating the line chart with response code {response.status_code}. This may be due to anamolous data returned from the Patent API")
+
+if requests.get(f"{BASE_URL}/all_patents").json() != {}:
+    # --- Line Chart ---
+    st.subheader("Patent Trends Over Time")
+    response3 = requests.get(f"{BASE_URL}/line_chart")
+    chart_data = response3.json()
+    # Convert keys (dates) to datetime format and sort
+    sorted_data = sorted(chart_data.items(), key=lambda x: datetime.strptime(x[0], "%m/%Y"))
+    # Extract sorted x and ynvalues
+    sorted_x = [item[0] for item in sorted_data]
+    sorted_y = [item[1] for item in sorted_data] 
+    # Create the line chart
+    fig = px.line(x=sorted_x, y=sorted_y, labels={"x": "Date", "y": "Patent Application Count"}, 
+                markers=True, title="Patent Filing Trends")
+    st.plotly_chart(fig)
+    if response3.status_code != 200:
+        st.error(f"There was an error generating the line chart with response code {response.status_code}. This may be due to anamolous data returned from the Patent API")
+    # --- Heatmap ---
+    response4 = requests.get(f"{BASE_URL}/heatmap")
+    heatmap_data = response4.json()
+    fig2 = go.Figure(data=go.Choropleth(
+        locations=list(heatmap_data.keys()), # Spatial coordinates
+        z = list(heatmap_data.values()), # Data to be color-coded
+        locationmode = 'USA-states', # set of locations match entries in `locations`
+        colorscale = 'Reds',
+        colorbar_title = "Count of Patents",
+    ))
+    fig2.update_layout(
+        title_text = 'US Patent Applications by State',
+        geo_scope='usa', # limite map scope to USA
+    )
+    st.plotly_chart(fig2)
 
 # --- 2. Display Stored Patent Data ---
 st.subheader("Stored Patent Data")

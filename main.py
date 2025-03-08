@@ -5,6 +5,7 @@ import pandas as pd
 import numpy as np
 from datetime import datetime
 from database import *
+from state_abbreviations import st_abr_dic
 
 # Initialize FastAPI
 app = FastAPI()
@@ -64,7 +65,7 @@ def store_patents(search_all: str = "", filing_start_date: str = "", filing_end_
     search_results[f"attempt{api_call_number}"] = resp.json()["patentFileWrapperDataBag"]
     if resp.json()["count"] > 100:
         # setting to a conservative limit of 3 to reduce likelihood of hitting daily limit for testing purposes. Can make this bigger in a production environmment
-        api_call_limit = 5
+        api_call_limit = 1
         offset = 0
         while search_results["count"] - (offset + 100) >= 0 and api_call_number < api_call_limit:
             offset = offset + 100
@@ -110,7 +111,7 @@ def download_patent(application_number):
                         return download.get('downloadUrl')
         return None
     #test with 18537570
-    # Find and print the PDF URL
+    # Find and download the PDF URL
     pdf_url = find_pdf_spec_url(response.json())
     if pdf_url:
         response2 = requests.get(pdf_url, headers=headers)
@@ -136,6 +137,27 @@ def process_patent_dates(data):
 def generate_line_chart():
     return process_patent_dates(app.db.all())
 
+
+def process_heatmap_data(data):
+    patents_by_state = {}
+    for x in data:
+        state = data[x]['geographicRegionName'].lower()
+        try:
+            state_abb = st_abr_dic[state]
+        except:
+            continue
+        else:
+            if state_abb in patents_by_state:
+                patents_by_state[state_abb] += 1
+            else:
+                patents_by_state[state_abb] = 1
+    return patents_by_state
+
+
+# Generate heatmap data
+@app.get("/heatmap")
+def generate_heatmap():
+    return process_heatmap_data(app.db.all())
 
 @app.delete("/clear_db")
 def clear_db_table():
